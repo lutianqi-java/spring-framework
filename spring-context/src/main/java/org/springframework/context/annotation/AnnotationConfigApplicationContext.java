@@ -83,7 +83,26 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * e.g. {@link Configuration @Configuration} classes
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... annotatedClasses) {
+	     /*  1、GenericApplicationContext 的 构造方法 ，获取beanFactory ，
+	     public GenericApplicationContext() {
+				this.beanFactory = new DefaultListableBeanFactory();
+		 }
+		      2、走自己的构造方法构造方法
+		      public AnnotationConfigApplicationContext() {
+				this.reader = new AnnotatedBeanDefinitionReader(this);
+				this.scanner = new ClassPathBeanDefinitionScanner(this);
+	           }
+				1.GenericApplicationContext 创建了beanFactory -- DefaultListableBeanFactory
+				2.AbstractApplicationContext 构建了ResourceLoader
+				3.DefaultResourceLoader 准备好了ClassLoader
+				4.AnnotationConfigApplication 准备好BeanFactory 的 AnnotationBeanDefinitionReader 和 ClassPathBeanDefinitionScanner
+				5.AnnotationBeanDefinitionReader 准备好了conditionEvaluator 和 annotationprocessor
+				6.ClassPathBeanDefinitionScanner 注册了需要扫描的注解 如component 以及之下的 service，repository，controller等
+				7.DefaultListableBeanFactory 准备好了beanDefinitionMap存放 bean。
+			*/
+
 		this();
+		//注册
 		register(annotatedClasses);
 		refresh();
 	}
